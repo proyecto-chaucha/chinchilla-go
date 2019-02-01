@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
   "fmt"
   "log"
   "time"
@@ -9,7 +8,8 @@ import (
   "net/http"
   "io/ioutil"
   "encoding/json"
-	"html/template"
+  "html/template"
+  "github.com/gorilla/mux"
 )
 
 type blocksContainer struct {
@@ -87,19 +87,15 @@ func index(w http.ResponseWriter, r *http.Request)  {
   getJson("http://localhost:21662/rest/chaininfo.json", &chainTarget)
 
   for i := chainTarget.Height; i > chainTarget.Height - 20; i-- {
-    // get blockhash
     hash := getHash(apiURL + "/getblockhash/" + strconv.Itoa(i) + ".json")
 
-    // get each block
     blockTarget := block{}
     getJson(apiURL + "/block/" + hash + ".json", &blockTarget)
 
-    // block manipulation
     blockTime := time.Unix(blockTarget.Time, 0)
     blockTarget.Datetime = blockTime.Format("02.01.2006 15:04:05")
     blockTarget.Txcount = len(blockTarget.Tx)
 
-    // add block to container
     blocks.AddItem(blockTarget)
   }
   tmpl := template.Must(template.ParseFiles("templates/home.html"))
@@ -137,8 +133,8 @@ func main() {
   fmt.Println("SERVER STARTED :D")
 
   r := mux.NewRouter()
-	r.HandleFunc("/", index)
-	r.HandleFunc("/block/{id}", blockHandler)
-	r.HandleFunc("/tx/{id}", txHandler)
+  r.HandleFunc("/", index)
+  r.HandleFunc("/block/{id}", blockHandler)
+  r.HandleFunc("/tx/{id}", txHandler)
   log.Fatal(http.ListenAndServe(":8080", r))
 }
