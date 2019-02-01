@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Explorador de bloques - Proyecto Chaucha</title>
+	<link href="/static/favicon.ico" rel="icon" type="image/x-icon">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
+	<meta name="description" content="Proyecto Chaucha">
+	<meta name="author" content="César Vásquez C.">
+	<style type="text/css">
+	@import url('https://fonts.googleapis.com/css?family=Comfortaa|Source+Code+Pro');
+	body { font-family: 'Comfortaa', cursive; font-size: 0.85em; }
+	.monospace { font-family: 'Source Code Pro', monospace; font-size: 0.9em; }
+	.mini { text-transform: uppercase; letter-spacing: 1px; }
+	p.small { line-height: 110%; }
+	table.center { margin-left:auto; margin-right:auto; }
+	a { text-decoration: underline; }
+	h3 {font-family: 'Source Code Pro', monospace; font-size: 1.15em; }
+	th,td { text-align-last: center; }
+	</style>
+</head>
+<body>
+<section class="section">
+	<div class="container">
+		<div class="level">
+			<div class="level-left">
+				<div>
+					<h1 class="title">
+						<a href="/" class="has-text-danger" target="_blank">
+						Chinchilla
+						</a>
+					</h1>
+					<h2 class="subtitle monospace mini">Explorador de bloques</h2>
+				</div>
+			</div>
+		</div>
+    <br>
+    <div class="columns">
+      <div class="column has-text-centered">
+      	<h1 class="title is-size-4">Entradas</h1>
+    		<table class="table is-fullwidth">
+    			<thead>
+    				<tr>
+    					<th>Posición</th>
+    					<th>Transaccion</th>
+    				</tr>
+    			</thead>
+    			<tbody class="monospace">
+    			{{ range .Vin }}
+    				<tr>
+    					<td>{{ .Vout }}</td>
+    					{{ if .Txid }}
+    					<td><a class="has-text-danger" href="{{ .Txid }}">{{ .Txid }}</a></td>
+    					{{ else }}
+    					<td>Coinbase</td>
+    					{{ end }}
+    				</tr>
+    			{{ end }}
+    			</tbody>
+    		</table>
+      </div>
+
+    	<div class="column has-text-centered">
+    		<h1 class="title is-size-4">Salidas</h1>
+    		<table class="table is-fullwidth">
+    			<thead>
+    				<tr>
+    					<th>Posición</th>
+    					<th>Dirección</th>
+    					<th>Monto</th>
+    					<th>Tipo</th>
+
+    				</tr>
+    			</thead>
+    			<tbody class="monospace">
+    			{{ range .Vout }}
+    				<tr>
+    					<td>{{ .N }}</td>
+    					<td class="is-hidden-touch">{{range .ScriptPubKey.Address}} {{ . }}	{{ end }}</td>
+    					<td>{{ .Value }}</td>
+    					<td>{{ .ScriptPubKey.Type }}</td>
+    				</tr>
+    			{{ end }}
+    			</tbody>
+    		</table>
+    	</div>
+    </div>
+
+    <div class="has-text-centered">
+    <p class="subtitle monospace mini"><a class="has-text-danger" href="/">Volver al inicio</a></p>
+    </div>
+	</div>
+</section>
+
+</body>
+</html>
