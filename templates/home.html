@@ -47,8 +47,8 @@
 				</tr>
 				</thead>
 				<tbody class="monospace">
-					{{with .Block}}
-					{{range .}}
+					{{with .Container}}
+					{{range .Block}}
 					<tr>
 						<td><a class="has-text-danger" href="/block/{{ .Hash }}">{{ .Height }}</a></td>
 						<td>{{ .Datetime }}</td>
@@ -61,7 +61,16 @@
 					{{end}}
 			</tbody>
 		</table>
+		<div>
+		<p class="subtitle monospace mini has-text-centered">
+			{{ if .PagePrev }}
+			<a href="/{{ .PagePrev }}" class="has-text-danger"><i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+			{{ end }}
+			Página {{ .Page }}
+			<a href="/{{ .PageNext }}" class="has-text-danger"><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 
+		</p>
+		</div>
 	</div>
 </section>
 
