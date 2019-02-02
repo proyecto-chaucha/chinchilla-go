@@ -9,8 +9,8 @@ import (
   "html/template"
   "strings"
   "github.com/gorilla/mux"
-  "chinchilla-go/types"
-  "chinchilla-go/functions"
+  "github.com/chinchilla-go/types"
+  "github.com/chinchilla-go/functions"
 )
 
 type blockPage struct {
