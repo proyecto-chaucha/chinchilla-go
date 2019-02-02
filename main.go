@@ -7,9 +7,10 @@ import (
   "strconv"
   "net/http"
   "html/template"
+  "strings"
   "github.com/gorilla/mux"
-  "github.com/proyecto-chaucha/chinchilla-go/types"
-  "github.com/proyecto-chaucha/chinchilla-go/functions"
+  "chinchilla-go/types"
+  "chinchilla-go/functions"
 )
 
 type blockPage struct {
@@ -20,7 +21,7 @@ type blockPage struct {
 }
 
 var apiURL string = "http://localhost:21662/rest"
-var maxBlocks int = 12
+var maxBlocks int = 40
 
 type BlocksContainer struct {
   Block []types.Block
@@ -33,15 +34,19 @@ func (container *BlocksContainer) AddItem(item types.Block) []types.Block {
 
 func getblocks(offset int) BlocksContainer {
   blocks := BlocksContainer{[]types.Block{}}
-  target := types.Chain{}
-  functions.GetJSON("http://localhost:21662/rest/chaininfo.json", &target)
+
+  target := functions.GetWeb(apiURL + "/blockcount.json")
+  height64, err := strconv.ParseInt(strings.TrimSpace(target), 10, 0)
+  if err != nil { log.Fatal(err) }
+  height := int(height64)
 
   var off int
   if offset > maxBlocks { off = int(offset) - maxBlocks } else { off = 0 }
 
-  if target.Height - off - maxBlocks + 1 >= 0 {
-    for i := target.Height - off; i >= target.Height - off - maxBlocks + 1; i-- {
-      hash := functions.GetHash(apiURL + "/getblockhash/" + strconv.Itoa(i) + ".json")
+  if height - off - maxBlocks + 1 >= 0 {
+    for i := height - off; i >= height - off - maxBlocks + 1; i-- {
+      hashTarget := functions.GetWeb(apiURL + "/getblockhash/" + strconv.Itoa(i) + ".json")
+      hash := hashTarget
 
       blockTarget := types.Block{}
       functions.GetJSON(apiURL + "/block/" + hash + ".json", &blockTarget)

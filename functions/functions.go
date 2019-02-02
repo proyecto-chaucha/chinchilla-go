@@ -17,7 +17,7 @@ func GetJSON(url string, target interface{}) error {
   return json.NewDecoder(resp.Body).Decode(target)
 }
 
-func GetHash(url string) string  {
+func GetWeb(url string) string  {
   resp, err := myClient.Get(url)
   if err != nil { log.Fatal(err) }
   defer resp.Body.Close()

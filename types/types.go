@@ -1,10 +1,5 @@
 package types
 
-type Chain struct {
-  Height int `json:"height"`
-  Total_amount float32 `json:"total_amount"`
-}
-
 type Block struct {
   Hash string `json:"hash"`
   Height int `json:"height"`
