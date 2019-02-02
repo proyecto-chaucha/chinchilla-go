@@ -8,8 +8,8 @@ import (
   "net/http"
   "html/template"
   "github.com/gorilla/mux"
-  "chinchilla-go/types"
-  "chinchilla-go/functions"
+  "github.com/proyecto-chaucha/chinchilla-go/types"
+  "github.com/proyecto-chaucha/chinchilla-go/functions"
 )
 
 type blockPage struct {
