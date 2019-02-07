@@ -1,13 +1,31 @@
 package types
 
+type BlockPage struct {
+  Container BlocksContainer
+  Page int64
+  PageNext int64
+  PagePrev int64
+}
+
+type BlocksContainer struct {
+  Block []Block
+}
+
+func (container *BlocksContainer) AddItem(item Block) []Block {
+    container.Block = append(container.Block, item)
+    return container.Block
+}
+
 type Block struct {
   Hash string `json:"hash"`
   Height int `json:"height"`
   Time int64 `json:"time"`
   Datetime string
+  Comfirmations int `json:"confirmations"`
   Difficulty float32 `json:"difficulty"`
   Size int `json:"size"`
-  Version int `json:"versionHex"`
+  Version string `json:"versionHex"`
+  Chainwork string `json:"chainwork"`
   Previousblockhash string `json:"previousblockhash"`
   Merkleroot string `json:"merkleroot"`
   Bits string `json:"bits"`
